@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set New Activity</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #4db8b8, #6fe1e1, #80e4d4);
+            background-attachment: fixed;
+            background-size: cover;
+            color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            padding-top: 10px;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        .card {
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px; 
+            margin-top: 0;
+        }
+
+        .header-box {
+            background-color: #80e4d4;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+
+        .header-box h2 {
+            font-size: 1.75rem;
+            margin: 0;
+        }
+
+        .form-control {
+            border-radius: 0.375rem;
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-set-activity {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px;
+            background: #66c2c2;
+            color: white;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-set-activity:hover {
+            background-color: #80e4d4;
+        }
+
+        .d-grid {
+            margin-top: 20px;
+        }
+
+        .alert {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="header-box">
+                <h2 class="card-title">Set a New Activity</h2>
+            </div>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mt-3">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Form to set new activity -->
+            <form method="POST" action="{{ url_for('set_activity') }}">
+                <div class="mb-3">
+                    <label for="activity_name" class="form-label">Activity Name</label>
+                    <input type="text" class="form-control" id="activity_name" name="activity_name" required placeholder="Enter activity name">
+                </div>
+                <div class="mb-3">
+                    <label for="activity_type" class="form-label">Activity Type</label>
+                    <select class="form-control" id="activity_type" name="activity_type" required>
+                        <option value="" disabled selected>Select activity type</option>
+                        <option value="walking">Walking</option>
+                        <option value="running">Running</option>
+                        <option value="cycling">Cycling</option>
+                        <option value="meditation">Meditation</option>
+                    </select>
+                </div>
+                <div class="d-grid">
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" required placeholder="Enter activity description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="ate" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="time" class="form-label">Time</label>
+                    <input type="time" class="form-control" id="time" name="time" required>
+                </div>
+                    <button type="submit" class="btn btn-set-activity">Set Activity</button>
+                </div>
+            </form>
+            <div class="mt-4">
+                <a href="{{ url_for('user_dashboard') }}" class="btn btn-link">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

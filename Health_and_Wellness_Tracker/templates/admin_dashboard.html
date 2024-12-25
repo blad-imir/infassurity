@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #4db8b8, #6fe1e1, #80e4d4);
+            background-attachment: fixed;
+            background-size: cover;
+            color: #333; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9); 
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 80%; 
+            max-width: 1000px; 
+        }
+
+        .header-box {
+            background-color: #80e4d4; 
+            padding: 20px;
+            border-radius: 8px 8px 0 0; 
+            text-align: center;
+        }
+
+        .table {
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .btn {
+            font-size: 1rem;
+            padding: 10px 20px;
+        }
+
+        .btn-primary, .btn-danger {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Admin Dashboard Header Box -->
+        <div class="header-box">
+            <h1>Admin Dashboard</h1>
+        </div>
+
+        <div class="alert alert-info" role="alert">
+            Welcome, Admin!
+        </div>
+
+        <!-- Flash message handling -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-{{ messages[0][0] }}" role="alert">
+                    {{ messages[0][1] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h3>Users</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user[1] }}</td>  
+                        <td>{{ user[2] }} {{ user[3] }}</td> 
+                        <td>{{ user[6] }}</td>  
+                        <td>{{ user[9] }}</td>  
+                        <td>
+                            <a href="{{ url_for('delete_user', id=user[0]) }}" class="btn btn-danger">Delete</a> 
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-3 d-flex flex-column flex-sm-row justify-content-center">
+            <a href="{{ url_for('create_user') }}" class="btn btn-primary mb-2 mb-sm-0 me-sm-2">Create New User</a>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-danger mb-2 mb-sm-0">Logout</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
